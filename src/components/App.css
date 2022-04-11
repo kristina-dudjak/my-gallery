@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.search{
+  margin: 10px 5%;
+}
+
+.image{
+  padding: 20px 50px;
+}
