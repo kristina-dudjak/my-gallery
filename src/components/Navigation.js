@@ -6,6 +6,10 @@ import NavbarBrand from "react-bootstrap/NavbarBrand";
 import NavbarToggle from "react-bootstrap/NavbarToggle";
 import NavbarCollapse from "react-bootstrap/NavbarCollapse";
 import Container from "react-bootstrap/Container";
+import {auth} from '../firebase.js';
+import {signOut} from 'firebase/auth';
+
+
 
 const Navigation = () => {
   return (
@@ -21,6 +25,7 @@ const Navigation = () => {
           <Nav>
             <Nav.Link href="/login">Login</Nav.Link>
             <Nav.Link href="/register">Register</Nav.Link>
+            <Nav.Link href="/" onClick={signOut(auth)}>Log out</Nav.Link>
           </Nav>
         </NavbarCollapse>
       </Container>
