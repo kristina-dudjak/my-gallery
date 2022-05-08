@@ -1,17 +1,22 @@
-import Mosaic from '../components/Mosaic';
+import Mosaic from "../components/Mosaic";
+import Api from "../Api";
 import "../components/App.css";
+import { useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
 
 function MyGallery() {
-    let urls = ["https://picsum.photos/400?random=1",
-  "https://picsum.photos/400?random=2",
-  "https://picsum.photos/400?random=3",
-  "https://picsum.photos/400?random=4",
-  "https://picsum.photos/400?random=5",
-  "https://picsum.photos/400?random=6"]
+  const [images, setImages] = useState(null);
+
+  useEffect(() => {
+    Api.getImages().then((e) => setImages(e));
+  }, []);
+
   return (
-    <div>
-      <Mosaic urls={urls}/>
-    </div>
+    <Container>
+      <Row>
+          <Mosaic urls={images} />
+      </Row>
+    </Container>
   );
 }
 

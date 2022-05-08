@@ -1,10 +1,69 @@
 .App {
+  display: flex;
+  padding-top: 50px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+}
+
+.input {
+  padding: 10px 20px;
+}
+
+.input > input {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 300px;
+  padding: 10px 20px;
+}
+button {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  width: 300px;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(4, 100, 243);
+}
+button:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(58, 71, 90);
+}
+button:active {
+  background-color: cornflowerblue;
+  width: 290px;
+}
+.card {
+  padding: 5px;
+  width: auto;
+  height: auto;
+}
+.result {
+  display: grid;
+  grid-column-gap: 5px;
+  grid-template-columns: auto auto auto;
+  width: auto;
+  height: auto;
+}
+.result > img {
+  flex-wrap: nowrap;
+  margin: 5px;
+}
+.username {
+  width: 200px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+@media screen and (max-width: 700px) {
+  .result {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -37,10 +96,10 @@
   }
 }
 
-.search{
+.search {
   margin: 10px 5%;
 }
 
-.image{
-  padding: 20px 50px;
+.mosaic img {
+  margin: 20px;
 }

@@ -1,19 +1,29 @@
 import Search from "../components/Search";
-import Mosaic from '../components/Mosaic';
 import "../components/App.css";
+import Mosaic from "../components/Mosaic";
+import Api from "../Api";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 function Home() {
-  let urls = ["https://picsum.photos/400?random=1",
-  "https://picsum.photos/400?random=2",
-  "https://picsum.photos/400?random=3",
-  "https://picsum.photos/400?random=4",
-  "https://picsum.photos/400?random=5",
-  "https://picsum.photos/400?random=6"]
+  const [images, setImages] = useState(null);
+
+  useEffect(() => {
+    Api.getImages().then((e) => setImages(e));
+  }, []);
+
   return (
-    <div>
-      <Search />
-      <Mosaic urls={urls}/>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <Search />
+        </Col>
+      </Row>
+
+      <Row>
+          <Mosaic urls={images } />
+      </Row>
+    </Container>
   );
 }
 

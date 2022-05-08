@@ -1,13 +1,14 @@
+import { Col } from "react-bootstrap";
 import  Image from "react-bootstrap/Image";
 
-const Mosaic = (props) => {
-    let images = [];
-    for (let i = 0; i < props.urls.length; i++) {
-        const url = props.urls[i];
-        images[i] = <Image className="image" src={url} />
-    }
+function Mosaic(props) {
+    const urls = props.urls;
+    const images = urls?.map((url) => <Image src={url} />);
+
     return (
-        images
+        <Col className="mosaic justify-content-center">
+            {images}
+        </Col>
     );
 };
 
