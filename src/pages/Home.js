@@ -1,5 +1,5 @@
 import Search from "../components/Search";
-import "../components/App.css";
+import "../App";
 import Mosaic from "../components/Mosaic";
 import Api from "../Api";
 import { useEffect, useState } from "react";

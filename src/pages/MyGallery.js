@@ -1,6 +1,6 @@
 import Mosaic from "../components/Mosaic";
 import Api from "../Api";
-import "../components/App.css";
+import "../App";
 import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 
