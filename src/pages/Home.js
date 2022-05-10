@@ -12,11 +12,17 @@ function Home() {
     Api.getImages().then((e) => setImages(e));
   }, []);
 
+  function onSearch(query) {
+      if( query != null){
+        Api.getImagesByQuery(query).then((e) => setImages(e));
+      }
+  }
+
   return (
     <Container>
       <Row>
         <Col>
-          <Search />
+          <Search onSearch={onSearch} />
         </Col>
       </Row>
 
