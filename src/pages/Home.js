@@ -6,16 +6,18 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 function Home() {
-  const [images, setImages] = useState(null);
+  const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    Api.getImages().then((e) => setImages(e));
+    Api.getImages().then((e) => {
+      setPosts(e);
+    });
   }, []);
 
   function onSearch(query) {
-      if( query != null){
-        Api.getImagesByQuery(query).then((e) => setImages(e));
-      }
+    if (query !== "") {
+      Api.getImagesByQuery(query).then((e) => setPosts(e));
+    }
   }
 
   return (
@@ -26,9 +28,11 @@ function Home() {
         </Col>
       </Row>
 
-      <Row>
-          <Mosaic urls={images } />
-      </Row>
+      {posts != null && (
+        <Row>
+          <Mosaic posts={posts} />
+        </Row>
+      )}
     </Container>
   );
 }

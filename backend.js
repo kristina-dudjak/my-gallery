@@ -14,7 +14,16 @@ app.get("/images", (req, res) => {
   axios
     .get(BASE_URL + "photos", { params: { page: 1, client_id: key } })
     .then((response) => {
-      res.json(response.data.map((e) => e.urls.small));
+      var data = [];
+      response.data.forEach((e) => {
+        var imagePost = {};
+        imagePost.smallImage = e.urls.small;
+        imagePost.fullImage = e.urls.full;
+        imagePost.name = e.user.name;
+        imagePost.profileImage = e.user.profile_image.small;
+        data.push(imagePost);
+      });
+      res.json(data);
     });
 });
 
@@ -24,7 +33,16 @@ app.get("/search", (req, res) => {
       params: { page: 1, query: req.query.q, client_id: key },
     })
     .then((response) => {
-      res.json(response.data.results.map((e) => e.urls.small));
+      var data = [];
+      response.data.results.forEach((e) => {
+        var imagePost = {};
+        imagePost.smallImage = e.urls.small;
+        imagePost.fullImage = e.urls.full;
+        imagePost.name = e.user.name;
+        imagePost.profileImage = e.user.profile_image.small;
+        data.push(imagePost);
+      });
+      res.json(data);
     });
 });
 

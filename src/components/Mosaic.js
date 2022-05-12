@@ -1,15 +1,20 @@
-import { Col } from "react-bootstrap";
-import  Image from "react-bootstrap/Image";
+import { Col, Row, Card, Container } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
+import ImageCard from "./ImageCard";
 
 function Mosaic(props) {
-    const urls = props.urls;
-    const images = urls?.map((url) => <Image src={url} />);
+  const posts = props.posts;
+  const cards = posts.map((post) => (
+    <Col xs={12} md={4}>
+      <ImageCard post={post} />
+    </Col>
+  ));
 
-    return (
-        <Col className="mosaic justify-content-center">
-            {images}
-        </Col>
-    );
-};
+  return (
+    <Container className="d-flow">
+      <Row>{cards}</Row>
+    </Container>
+  );
+}
 
 export default Mosaic;
