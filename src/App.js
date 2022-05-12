@@ -13,8 +13,9 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/mygallery" element={<MyGallery />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
+        <Route path="/photos/:query" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
