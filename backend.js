@@ -19,8 +19,9 @@ app.get("/images", (req, res) => {
         var imagePost = {};
         imagePost.smallImage = e.urls.small;
         imagePost.fullImage = e.urls.full;
-        imagePost.name = e.user.name;
-        imagePost.profileImage = e.user.profile_image.small;
+        imagePost.authorName = e.user.name;
+        imagePost.authorProfileImage = e.user.profile_image.small;
+        imagePost.authorLink = e.user.links.html;
         data.push(imagePost);
       });
       res.json(data);
@@ -38,8 +39,9 @@ app.get("/search", (req, res) => {
         var imagePost = {};
         imagePost.smallImage = e.urls.small;
         imagePost.fullImage = e.urls.full;
-        imagePost.name = e.user.name;
-        imagePost.profileImage = e.user.profile_image.small;
+        imagePost.authorName = e.user.name;
+        imagePost.authorProfileImage = e.user.profile_image.small;
+        imagePost.authorLink = e.user.links.html;
         data.push(imagePost);
       });
       res.json(data);
