@@ -1,14 +1,21 @@
-import  Image from "react-bootstrap/Image";
+import { Col, Row, Container } from "react-bootstrap";
+import ImageCard from "./ImageCard";
 
-const Mosaic = (props) => {
-    let images = [];
-    for (let i = 0; i < props.urls.length; i++) {
-        const url = props.urls[i];
-        images[i] = <Image className="image" src={url} />
-    }
-    return (
-        images
-    );
-};
+function Mosaic(props) {
+  const posts = props.posts;
+  const cards = posts.map((post) => (
+    <Col>
+      <ImageCard post={post} onClick={() => props.onImageClick(post)} />
+    </Col>
+  ));
+
+  return (
+    <Container className="d-flow">
+      <Row xs={12} md={3}>
+        {cards}
+      </Row>
+    </Container>
+  );
+}
 
 export default Mosaic;
