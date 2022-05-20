@@ -5,13 +5,12 @@ import NavLink from "react-bootstrap/NavLink";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 import NavbarToggle from "react-bootstrap/NavbarToggle";
 import NavbarCollapse from "react-bootstrap/NavbarCollapse";
+import { NavDropdown } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {auth} from '../firebase.js';
-import {signOut} from 'firebase/auth';
-
-
+import { useAuth } from "../contexts/AuthContext";
 
 const Navigation = () => {
+  const { logout, loggedHidden } = useAuth();
   return (
     <NavBar bg="light" expand="lg">
       <Container>
@@ -20,12 +19,15 @@ const Navigation = () => {
         <NavbarCollapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink href="/">Home</NavLink>
-            <NavLink href="/mygallery">My Gallery</NavLink>
+            <NavLink href="/mygallery" id="linkMyGallery" hidden={loggedHidden}>My Gallery</NavLink>
           </Nav>
           <Nav>
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/register">Register</Nav.Link>
-            <Nav.Link href="/" onClick={signOut(auth)}>Log out</Nav.Link>
+            <Nav.Link href="/login" id="linkLogin" hidden={!loggedHidden}>Login</Nav.Link>
+            <Nav.Link href="/register" id="linkRegister" hidden={!loggedHidden}>Register</Nav.Link>
+            <NavDropdown id="dropdown" hidden={loggedHidden}>
+              <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+              <NavDropdown.Item href="/" onClick={logout}>Log out</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </NavbarCollapse>
       </Container>
