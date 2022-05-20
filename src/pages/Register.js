@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import { createUserWithEmailAndPassword, signOut, sendEmailVerification} from "firebase/auth";
-import { useNavigate  } from 'react-router-dom';
-import {auth} from '../firebase.js';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../contexts/AuthContext";
 
 
 function Registration() {
@@ -11,7 +10,8 @@ function Registration() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate=useNavigate();
+    const { signup, logout, verifyEmail } = useAuth()
+    const navigate = useNavigate();
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -22,19 +22,19 @@ function Registration() {
         setPassword(event.target.value);
     };
 
-    const register = async () =>{
-        try{
-            const res= await createUserWithEmailAndPassword(auth, email, password);
-            await signOut(auth);
-            await sendEmailVerification(res.user);
+    const register = async () => {
+        try {
+            await signup(email, password);
+            await logout();
+            await verifyEmail();
             navigate("/login");
-        } catch(error){
-            if(error.code=="auth/email-already-in-use") {
-            setErrorMessage("Email is already in use.");
-        } else {
-            setErrorMessage("Something went wrong. Please try again.");
+        } catch (error) {
+            if (error.code === "auth/email-already-in-use") {
+                setErrorMessage("Email is already in use.");
+            } else {
+                setErrorMessage("Something went wrong. Please try again.");
+            }
         }
-        } 
     }
 
     const handleSubmit = (event) => {
@@ -46,14 +46,12 @@ function Registration() {
 
     const emailVaildation = (event) => {
         const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        if(!pattern.test(email)){
+        if (!pattern.test(email)) {
             event.preventDefault();
             setErrorMessage("You entered invalid email. Please enter valid email.");
         }
 
-    } 
-
-
+    }
 
     return (
         <Container className='mt-5 d-flex justify-content-center'>
@@ -61,14 +59,14 @@ function Registration() {
             <Form noValidate id='registration' className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
                 <Form.Group className="mb-2">
                     <Form.Control type="email" required placeholder="Email" onChange={handleEmailChange} />
-                    </Form.Group>
+                </Form.Group>
                 <Form.Group className="mb-2">
                     <Form.Control type="password" required placeholder="Password (min. 6 characters)" onChange={handlePasswordChange} />
-                   </Form.Group>
+                </Form.Group>
                 <div className="d-grid gap-2">
-                <Button variant="primary" type="submit" disabled={!email || password.length<6 || loading} onClick={emailVaildation}>
-                    Register
-                </Button>
+                    <Button variant="primary" type="submit" disabled={!email || password.length < 6 || loading} onClick={emailVaildation}>
+                        Register
+                    </Button>
                 </div>
                 <div className="text-danger">{errorMessage}</div>
             </Form>
