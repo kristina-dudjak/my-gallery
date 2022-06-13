@@ -1,16 +1,19 @@
 import axios from "axios";
 import { set, ref, get, remove } from "firebase/database";
 import { db } from "./firebase.js";
+import { useAuth } from "./contexts/AuthContext";
 const PORT = "3001";
 
 class Api {
-  static async getImages(uid) {
+
+  static async getImages() {
     let imagePosts = [];
-    const gallery = await this.readGallery(uid);
+    const currentUser = useAuth;
+    const gallery = await this.readGallery();
     await axios.get("http://localhost:" + PORT + "/images").then((res) => {
       imagePosts = res.data;
       imagePosts.forEach((post) => {
-        if (gallery.find((galleryPost) => galleryPost.id === post.id)) {
+        if (currentUser.uid !== undefined && gallery.find((galleryPost) => galleryPost.id === post.id)) {
           post.inGallery = true;
         }
       });
@@ -28,15 +31,19 @@ class Api {
     return imagePosts;
   }
 
-  static async saveImagePost(uid, imagePost) {
-    set(ref(db, `users/${uid}/gallery/${imagePost.id}/`), {
-      smallImage: imagePost.smallImage,
-      fullImage: imagePost.fullImage,
-      authorName: imagePost.authorName,
-      authorProfileImage: imagePost.authorProfileImage,
-      authorLink: imagePost.authorLink,
-      inGallery: true,
-    });
+  static async saveImagePost(user, imagePost) {
+
+    if(user !== null){
+      set(ref(db, `users/${user.uid}/gallery/${imagePost.id}/`), {
+        smallImage: imagePost.smallImage,
+        fullImage: imagePost.fullImage,
+        authorName: imagePost.authorName,
+        authorProfileImage: imagePost.authorProfileImage,
+        authorLink: imagePost.authorLink,
+        inGallery: true,
+      });
+    } else {
+    }
   }
 
   static async readGallery(uid) {
