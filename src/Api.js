@@ -10,7 +10,7 @@ class Api {
     await axios.get("http://localhost:" + PORT + "/images").then((res) => {
       imagePosts = res.data;
       imagePosts.forEach((post) => {
-        if (gallery.find((galleryPost) => galleryPost.id == post.id)) {
+        if (gallery.find((galleryPost) => galleryPost.id === post.id)) {
           post.inGallery = true;
         }
       });
@@ -57,6 +57,22 @@ class Api {
 
   static async removeFromGallery(uid, imagePost) {
     remove(ref(db, `users/${uid}/gallery/${imagePost.id}`));
+  }
+
+  static async downloadImage(imagePost) {
+    const image = await fetch(imagePost.fullImage);
+
+    const nameSplit = imagePost.fullImage.split("/");
+    const imageName = nameSplit.pop();
+
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = imagePost.authorName + "/" + imageName + ".jpg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
 export default Api;

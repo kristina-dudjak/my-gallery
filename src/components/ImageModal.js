@@ -23,6 +23,10 @@ function ImageModal(props) {
     Api.removeFromGallery(currentUser.uid, post);
   }
 
+  function downloadImage() {
+    Api.downloadImage(post);
+  }
+
   return (
     <Modal
       show={true}
@@ -46,7 +50,9 @@ function ImageModal(props) {
             Save to gallery
           </Button>
         )}
-        <Button variant="primary">Download</Button>
+        <Button variant="primary" onClick={downloadImage}>
+          Download
+        </Button>
       </Modal.Footer>
     </Modal>
   );
