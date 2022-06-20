@@ -23,19 +23,16 @@ function Registration() {
     };
 
     const register = async () => {
-        try {
-            await signup(email, password);
-            await logout();
-            await verifyEmail();
-            navigate("/login");
-        } catch (error) {
-            if (error.code === "auth/email-already-in-use") {
+            const signUpError = await signup(email, password);
+            if (signUpError === "auth/email-already-in-use") {
                 setErrorMessage("Email is already in use.");
-            } else {
+            } else if(signUpError!=null) {
                 setErrorMessage("Something went wrong. Please try again.");
+            } else{
+                await logout();
+                navigate("/login");
             }
         }
-    }
 
     const handleSubmit = (event) => {
         setLoading(true);

@@ -13,8 +13,13 @@ export function AuthProvider({ children }) {
   const [loggedHidden, setLoggedHidden] = useState();
   const [loading, setLoading] = useState(true);
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(email, password) {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(user.user);
+    } catch (error) {
+      return error.code;
+    }
   }
 
   function login(email, password) {
@@ -39,7 +44,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedHidden(false);
+        if (user.emailVerified) {
+          setLoggedHidden(false);
+        }
       } else {
         setLoggedHidden(true);
       }
