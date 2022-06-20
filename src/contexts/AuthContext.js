@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   async function signup(email, password) {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(user.user);
+      await verifyEmail(user.user);
     } catch (error) {
       return error.code;
     }
@@ -31,9 +31,11 @@ export function AuthProvider({ children }) {
   function logout() {
     return signOut(auth);
   }
-  function verifyEmail() {
-    return sendEmailVerification(currentUser);
+
+  function verifyEmail(user) {
+    return sendEmailVerification(user);
   }
+  
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }

@@ -8,8 +8,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login, logout } = useAuth();
+  const { login, logout, verifyEmail } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
+  const [sendVerEmailHidden, setSendVerEmailHidden] = useState(true);
+  const [user, setUser] = useState();
 
   const [show, setShow] = useState(false);
 
@@ -33,20 +35,34 @@ function Login() {
       setErrorMessage("You entered invalid email. Please enter valid email.");
     }
   }
+
+  const verifyMail = async () => {
+    try {
+      await verifyEmail(user);
+
+    } catch (error) {
+      console.log(error.code);
+    }
+  }
+
   const signIn = async () => {
+    setUser();
     try {
       const res = await login(email, password);
       if (res.user.emailVerified) {
-        navigate(-1);
+        navigate("/");
       } else {
+        setUser(res.user);
         await logout();
-        setErrorMessage("You didn't verified your email.")
+        setSendVerEmailHidden(false);
+        setErrorMessage("You didn't verify your email.");
       }
     } catch (error) {
+      setSendVerEmailHidden(true);
       if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
         setErrorMessage("You entered wrong email and/or password. Check your email and/or password.");
       } else {
-        setErrorMessage("Something went wrong. Please try again.")
+        setErrorMessage("Something went wrong. Please try again.");
       }
     }
   }
@@ -74,9 +90,14 @@ function Login() {
             Login
           </Button>
           <div className="text-danger">{errorMessage}</div>
+          <div hidden={sendVerEmailHidden}>
+            You didn't get verification e-mail?
+            <Button variant='link' onClick={verifyMail}>Send verification e-mail again</Button>
+          </div>
         </div>
         <Button variant="link" onClick={handleShow}>Forgot password?</Button>
         <ResetPasswordModal
+          size="sm"
           show={show}
           onHide={handleClose} />
       </Form>
