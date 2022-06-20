@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { EmailAuthProvider, createUserWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signInWithEmailAndPassword, reauthenticateWithCredential, deleteUser, updatePassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { db } from "../firebase";
+import { ref, remove } from "firebase/database";
 
 const AuthContext = React.createContext();
 
@@ -36,8 +38,25 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   }
 
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
+  async function updateUsersPassword(oldPassword, newPassword) {
+    const credential = EmailAuthProvider.credential(currentUser.email, oldPassword);
+    try {
+      await reauthenticateWithCredential(currentUser, credential);
+      await updatePassword(currentUser, newPassword);
+    } catch (error) {
+      return error.code;
+    }
+  }
+
+  async function deleteAccout(password) {
+    const credential = EmailAuthProvider.credential(currentUser.email, password);
+    try {
+      await reauthenticateWithCredential(currentUser, credential);
+      await remove(ref(db, `users/${currentUser.uid}`));
+      await deleteUser(currentUser);
+    } catch (error) {
+      return error.code;
+    }
   }
 
 
@@ -64,7 +83,8 @@ export function AuthProvider({ children }) {
     logout,
     verifyEmail,
     resetPassword,
-    updatePassword,
+    updateUsersPassword,
+    deleteAccout,
     loggedHidden
   }
 

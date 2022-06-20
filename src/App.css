@@ -37,3 +37,7 @@ button:active {
   max-width: 75vw;
   max-height: 65vh;
 }
+
+.description{
+  font-size: smaller;
+}
