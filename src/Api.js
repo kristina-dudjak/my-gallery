@@ -5,26 +5,38 @@ import { useAuth } from "./contexts/AuthContext";
 const PORT = "3001";
 
 class Api {
-
-  static async getImages() {
+  static async getImages(pageNumber) {
     let imagePosts = [];
     const currentUser = useAuth;
     const gallery = await this.readGallery();
-    await axios.get("http://localhost:" + PORT + "/images").then((res) => {
-      imagePosts = res.data;
-      imagePosts.forEach((post) => {
-        if (currentUser.uid !== undefined && gallery.find((galleryPost) => galleryPost.id === post.id)) {
-          post.inGallery = true;
-        }
+
+    await axios
+      .get("http://localhost:" + PORT + "/images?page=" + pageNumber)
+      .then((res) => {
+        imagePosts = res.data;
+        imagePosts.forEach((post) => {
+          if (
+            currentUser.uid !== undefined &&
+            gallery.find((galleryPost) => galleryPost.id === post.id)
+          ) {
+            post.inGallery = true;
+          }
+        });
       });
-    });
     return imagePosts;
   }
 
-  static async getImagesByQuery(query) {
+  static async getImagesByQuery(query, pageNumber) {
     let imagePosts = [];
     await axios
-      .get("http://localhost:" + PORT + "/search?q=" + query)
+      .get(
+        "http://localhost:" +
+          PORT +
+          "/search?q=" +
+          query +
+          "&page=" +
+          pageNumber
+      )
       .then((res) => {
         imagePosts = res.data;
       });
@@ -32,8 +44,7 @@ class Api {
   }
 
   static async saveImagePost(user, imagePost) {
-
-    if(user !== null){
+    if (user !== null) {
       set(ref(db, `users/${user.uid}/gallery/${imagePost.id}/`), {
         smallImage: imagePost.smallImage,
         fullImage: imagePost.fullImage,
