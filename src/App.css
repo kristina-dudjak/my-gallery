@@ -41,3 +41,28 @@ button:active {
 .description{
   font-size: smaller;
 }
+
+.container__cards {
+  column-count: 3;
+ }
+
+ .imageCard {
+  break-inside: avoid;
+ }
+
+ @media (max-width: 480px){
+  
+  .container__cards {
+    column-count: 1;
+  }
+}
+
+@media (min-width: 2000px){
+  
+  .container__cards {
+    column-count: 4;
+  }
+}
+ 
+ 
+
