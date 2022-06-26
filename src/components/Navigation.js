@@ -1,12 +1,8 @@
 import React from "react";
 import NavBar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavLink from "react-bootstrap/NavLink";
-import NavbarBrand from "react-bootstrap/NavbarBrand";
 import NavbarToggle from "react-bootstrap/NavbarToggle";
 import NavbarCollapse from "react-bootstrap/NavbarCollapse";
-import { NavDropdown } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
+import { Nav, NavbarBrand, NavLink, Container, NavDropdown } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navigation = () => {

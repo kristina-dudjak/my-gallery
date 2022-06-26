@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Button } from "react-bootstrap";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import ChangePasswordModal from "../components/ChangePasswordModal";
 import DeleteAccountModal from "../components/DeleteAccoutModal";
 

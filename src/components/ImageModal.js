@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Image } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import { Button, Image, Modal } from "react-bootstrap";
 import Api from "../Api";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from 'react-router-dom';
