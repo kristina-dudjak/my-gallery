@@ -11,7 +11,6 @@ function Search(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(query);
     props.onSearch(query);
   };
 

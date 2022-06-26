@@ -15,7 +15,6 @@ function DeleteAccountModal(props) {
 
   const deleteUser = async () => {
     const error = await deleteAccout(password);
-    console.log(error);
     if (error === "auth/wrong-password") {
       setErrorMessage("Wrong password.")
     } else if (error != null) {

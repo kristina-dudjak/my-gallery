@@ -53,12 +53,12 @@ function Registration() {
     return (
         <Container className='mt-5 d-flex justify-content-center'>
 
-            <Form noValidate id='registration' className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
+            <Form noValidate className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
                 <Form.Group className="mb-2">
-                    <Form.Control type="email" required placeholder="Email" onChange={handleEmailChange} />
+                    <Form.Control type="email" placeholder="Email" onChange={handleEmailChange} />
                 </Form.Group>
                 <Form.Group className="mb-2">
-                    <Form.Control type="password" required placeholder="Password (min. 6 characters)" onChange={handlePasswordChange} />
+                    <Form.Control type="password" placeholder="Password (min. 6 characters)" onChange={handlePasswordChange} />
                 </Form.Group>
                 <div className="d-grid gap-2">
                     <Button variant="primary" type="submit" disabled={!email || password.length < 6 || loading} onClick={emailVaildation}>

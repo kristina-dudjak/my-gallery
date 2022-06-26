@@ -23,7 +23,6 @@ function ResetPasswordModal(props) {
       if (error.code === "auth/user-not-found") {
         setErrorMessage("Wrong email.");
       } else {
-        console.log(error.code);
         setErrorMessage("Something went wrong. Please try again.");
       }
     }
@@ -31,7 +30,6 @@ function ResetPasswordModal(props) {
 
   const handleClick = () => {
     const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    console.log(pattern.test(email));
     if (!pattern.test(email)) {
       setErrorMessage("You entered invalid email. Please enter valid email.");
     } else {
