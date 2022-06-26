@@ -34,7 +34,7 @@ function Login() {
       event.preventDefault();
       setErrorMessage("You entered invalid email. Please enter valid email.");
     }
-  }
+  };
 
   const verifyMail = async () => {
     try {
@@ -43,7 +43,7 @@ function Login() {
     } catch (error) {
       console.log(error.code);
     }
-  }
+  };
 
   const signIn = async () => {
     setUser();
@@ -65,14 +65,15 @@ function Login() {
         setErrorMessage("Something went wrong. Please try again.");
       }
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     setLoading(true);
     event.preventDefault();
     signIn();
     setLoading(false);
-  }
+  };
+  
   return (
 
     <Container className='mt-5 d-flex justify-content-center'>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext";
 
 
 function ChangePasswordModal(props) {
@@ -27,14 +27,14 @@ function ChangePasswordModal(props) {
     } else {
       close();
     }
-  }
+  };
 
   const close = () => {
     props.onHide();
     setOldPassword("");
     setNewPassword("");
     setErrorMessage("");
-  }
+  };
 
   return (
 

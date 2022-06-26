@@ -10,7 +10,7 @@ function Registration() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const { signup, logout, verifyEmail } = useAuth()
+    const { signup, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleEmailChange = (event) => {
@@ -32,7 +32,7 @@ function Registration() {
                 await logout();
                 navigate("/login");
             }
-        }
+        };
 
     const handleSubmit = (event) => {
         setLoading(true);
@@ -48,7 +48,7 @@ function Registration() {
             setErrorMessage("You entered invalid email. Please enter valid email.");
         }
 
-    }
+    };
 
     return (
         <Container className='mt-5 d-flex justify-content-center'>

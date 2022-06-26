@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext";
 
 
 function ResetPasswordModal(props) {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { resetPassword } = useAuth()
+  const { resetPassword } = useAuth();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -27,7 +27,8 @@ function ResetPasswordModal(props) {
         setErrorMessage("Something went wrong. Please try again.");
       }
     }
-  }
+  };
+
   const handleClick = () => {
     const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     console.log(pattern.test(email));
@@ -36,13 +37,13 @@ function ResetPasswordModal(props) {
     } else {
       resetPwd();
     }
-  }
+  };
 
   const close = () => {
     props.onHide();
     setEmail("");
     setErrorMessage("");
-  }
+  };
 
   return (
 

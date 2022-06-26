@@ -75,8 +75,8 @@ export function AuthProvider({ children }) {
       setLoading(false);
     })
 
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
 
   const value = {
     currentUser,
@@ -88,11 +88,11 @@ export function AuthProvider({ children }) {
     updateUsersPassword,
     deleteAccout,
     loggedHidden
-  }
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }

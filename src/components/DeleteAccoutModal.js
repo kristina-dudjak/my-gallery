@@ -24,13 +24,13 @@ function DeleteAccountModal(props) {
       close();
       navigate("/");
     }
-  }
+  };
 
   const close = () => {
     props.onHide();
     setPassword("");
     setErrorMessage("");
-  }
+  };
 
   return (
 
