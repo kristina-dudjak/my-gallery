@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("/images", (req, res, next) => {
+app.get("/images", (req, res) => {
   axios
     .get(BASE_URL + "photos", {
       params: { page: req.query.page, client_id: key, per_page: 18 },
@@ -36,6 +36,13 @@ app.get("/images", (req, res, next) => {
         data.push(imagePost);
       });
       res.json(data);
+    })
+    .catch((err) => {
+      let message =
+        typeof err.response !== "undefined"
+          ? err.response.data.message
+          : err.message;
+      console.warn("error", message);
     });
 });
 
@@ -62,6 +69,13 @@ app.get("/search", (req, res) => {
         data.push(imagePost);
       });
       res.json(data);
+    })
+    .catch((err) => {
+      let message =
+        typeof err.response !== "undefined"
+          ? err.response.data.message
+          : err.message;
+      console.warn("error", message);
     });
 });
 

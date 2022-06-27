@@ -14,14 +14,22 @@ class Api {
       .get("http://localhost:" + PORT + "/images?page=" + pageNumber)
       .then((res) => {
         imagePosts = res.data;
-        imagePosts.forEach((post) => {
-          if (
-            currentUser.uid !== undefined &&
-            gallery.find((galleryPost) => galleryPost.id === post.id)
-          ) {
-            post.inGallery = true;
-          }
-        });
+        imagePosts
+          .forEach((post) => {
+            if (
+              currentUser.uid !== undefined &&
+              gallery.find((galleryPost) => galleryPost.id === post.id)
+            ) {
+              post.inGallery = true;
+            }
+          })
+          .catch((err) => {
+            let message =
+              typeof err.response !== "undefined"
+                ? err.response.data.message
+                : err.message;
+            console.warn("error", message);
+          });
       });
     return imagePosts;
   }
@@ -39,6 +47,13 @@ class Api {
       )
       .then((res) => {
         imagePosts = res.data;
+      })
+      .catch((err) => {
+        let message =
+          typeof err.response !== "undefined"
+            ? err.response.data.message
+            : err.message;
+        console.warn("error", message);
       });
     return imagePosts;
   }
@@ -54,6 +69,7 @@ class Api {
         inGallery: true,
       });
     } else {
+      console.warn("error", "Saving image post failed.");
     }
   }
 
@@ -68,13 +84,19 @@ class Api {
           rawData[key].id = key;
           data.push(rawData[key]);
         });
+      } else {
+        console.warn("error", "Reading gallery failed.");
       }
     });
     return data;
   }
 
   static async removeFromGallery(uid, imagePost) {
-    remove(ref(db, `users/${uid}/gallery/${imagePost.id}`));
+    if (imagePost) {
+      remove(ref(db, `users/${uid}/gallery/${imagePost.id}`));
+    } else {
+      console.warn("error", "Removing image post failed.");
+    }
   }
 
   static async downloadImage(imagePost) {
