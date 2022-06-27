@@ -3,7 +3,7 @@ import "../App";
 import Mosaic from "../components/Mosaic";
 import Api from "../Api";
 import { useEffect, useRef, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageModal from "../components/ImageModal";
 import React from "react";
@@ -54,22 +54,16 @@ function Home() {
   return (
     <Container>
       {modalPost && <ImageModal post={modalPost} onClose={hideModal} />}
-      <Row>
-        <Col>
-          <Search onSearch={onSearch} />
-        </Col>
-      </Row>
+      <Search onSearch={onSearch} />
       {posts && (
-        <Row>
-          <InfiniteScroll
-            initialLoad={false}
-            loadMore={loadMore}
-            hasMore={true}
-            loader={<div key={0}>Loading ...</div>}
-          >
-            {<Mosaic posts={posts} onImageClick={showModal} />}
-          </InfiniteScroll>
-        </Row>
+        <InfiniteScroll
+          initialLoad={false}
+          loadMore={loadMore}
+          hasMore={true}
+          loader={<div key={0}>Loading ...</div>}
+        >
+          {<Mosaic posts={posts} onImageClick={showModal} />}
+        </InfiniteScroll>
       )}
     </Container>
   );
