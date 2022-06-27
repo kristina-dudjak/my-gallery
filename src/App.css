@@ -1,11 +1,3 @@
-.App {
-  display: flex;
-  padding-top: 50px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
 button:hover {
   color: rgb(255, 255, 255);
@@ -16,11 +8,11 @@ button:active {
 }
 
 .search {
-  margin: 10px 5%;
+  margin: 10px 30% 10px 0px;
 }
 
 .image-card {
-  margin: 20px 10px;
+  margin: 10px;
   cursor: pointer;
 }
 
@@ -47,16 +39,15 @@ button:active {
 
  .imageCard {
   break-inside: avoid;
-  display: inline-grid;
-  page-break-inside: avoid;
   overflow: hidden;
  }
- 
+
  @media (max-width: 480px){
   
   .container__cards {
     column-count: 1;
   }
+
 }
 
 @media (min-width: 2000px){
