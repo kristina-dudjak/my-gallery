@@ -30,7 +30,7 @@ function ResetPasswordModal(props) {
   const handleClick = async () => {
     setErrorMessage("");
     setLoading(true);
-    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const pattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!pattern.test(email)) {
       setErrorMessage("You entered invalid email. Please enter valid email.");
     } else {

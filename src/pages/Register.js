@@ -44,7 +44,7 @@ function Registration() {
 
     const emailVaildation = (event) => {
         setErrorMessage("");
-        const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const pattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (!pattern.test(email)) {
             event.preventDefault();
             setErrorMessage("You entered invalid email. Please enter valid email.");
