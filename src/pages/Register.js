@@ -23,26 +23,28 @@ function Registration() {
     };
 
     const register = async () => {
-            const signUpError = await signup(email, password);
-            if (signUpError === "auth/email-already-in-use") {
-                setErrorMessage("Email is already in use.");
-            } else if(signUpError!=null) {
-                setErrorMessage("Something went wrong. Please try again.");
-            } else{
-                await logout();
-                navigate("/login");
-            }
-        };
+        setErrorMessage("");
+        const signUpError = await signup(email, password);
+        if (signUpError === "auth/email-already-in-use") {
+            setErrorMessage("Email is already in use.");
+        } else if (signUpError != null) {
+            setErrorMessage("Something went wrong. Please try again later.");
+        } else {
+            await logout();
+            navigate("/login");
+        }
+    };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         setLoading(true);
         event.preventDefault();
-        register();
+        await register();
         setLoading(false);
     };
 
     const emailVaildation = (event) => {
-        const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        setErrorMessage("");
+        const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!pattern.test(email)) {
             event.preventDefault();
             setErrorMessage("You entered invalid email. Please enter valid email.");
@@ -65,7 +67,7 @@ function Registration() {
                         Register
                     </Button>
                 </div>
-                <div className="text-danger">{errorMessage}</div>
+                <div className="text-danger mt-2">{errorMessage}</div>
             </Form>
         </Container>
     );

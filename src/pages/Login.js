@@ -29,7 +29,9 @@ function Login() {
   };
 
   const emailVaildation = (event) => {
-    const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+    setErrorMessage("");
+    setSendVerEmailHidden(true);
+    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!pattern.test(email)) {
       event.preventDefault();
       setErrorMessage("You entered invalid email. Please enter valid email.");
@@ -62,18 +64,18 @@ function Login() {
       if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
         setErrorMessage("You entered wrong email and/or password. Check your email and/or password.");
       } else {
-        setErrorMessage("Something went wrong. Please try again.");
+        setErrorMessage("Something went wrong. Please try again later.");
       }
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
-    signIn();
+    await signIn();
     setLoading(false);
   };
-  
+
   return (
 
     <Container className='mt-5 d-flex justify-content-center'>
@@ -90,7 +92,7 @@ function Login() {
           <Button variant="primary" type="submit" disabled={!email || password.length < 6 || loading} onClick={emailVaildation}>
             Login
           </Button>
-          <div className="text-danger">{errorMessage}</div>
+          <div className="text-danger mt-2">{errorMessage}</div>
           <div hidden={sendVerEmailHidden}>
             You didn't get verification email?
             <Button variant='link' onClick={verifyMail}>Send verification email again</Button>
@@ -98,7 +100,6 @@ function Login() {
         </div>
         <Button variant="link" onClick={handleShow}>Forgot password?</Button>
         <ResetPasswordModal
-          size="sm"
           show={show}
           onHide={handleClose} />
       </Form>

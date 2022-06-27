@@ -34,7 +34,6 @@ function Settings() {
         <Button onClick={handleShowDeleteAccount} variant="danger" size="sm" >Delete account</Button>
       </div>
       <ChangePasswordModal
-        size="sm"
         show={showChangePassword}
         onHide={handleCloseChangePassword} />
       <DeleteAccountModal

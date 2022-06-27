@@ -8,6 +8,7 @@ function ChangePasswordModal(props) {
   const [newPassword, setNewPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { updateUsersPassword } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleOldPasswordChange = (event) => {
     setOldPassword(event.target.value);
@@ -19,14 +20,17 @@ function ChangePasswordModal(props) {
 
 
   const changePwd = async () => {
+    setErrorMessage("");
+    setLoading(true);
     const error = await updateUsersPassword(oldPassword, newPassword);
     if (error === "auth/wrong-password") {
-      setErrorMessage("Wrong password.")
+      setErrorMessage("Wrong password.");
     } else if (error != null) {
-      setErrorMessage("Something went wrong. Please try again.")
+      setErrorMessage("Something went wrong. Please try again later.");
     } else {
       close();
     }
+    setLoading(false);
   };
 
   const close = () => {
@@ -38,7 +42,7 @@ function ChangePasswordModal(props) {
 
   return (
 
-    <Modal {...props}>
+    <Modal {...props} backdrop="static" keyboard={false} size="sm">
       <Modal.Header>
         <Modal.Title>Change password</Modal.Title>
       </Modal.Header>
@@ -54,8 +58,8 @@ function ChangePasswordModal(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="primary" onClick={changePwd} disabled={!oldPassword || newPassword.length < 6}>Change password</Button>
-        <Button variant='secondary' onClick={close}>Cancel</Button>
+        <Button variant="primary" onClick={changePwd} disabled={!oldPassword || newPassword.length < 6 || loading}>Change password</Button>
+        <Button variant='secondary' onClick={close} disabled={loading}>Cancel</Button>
       </Modal.Footer>
     </Modal>
   );
