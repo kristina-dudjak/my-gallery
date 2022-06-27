@@ -3,8 +3,8 @@ import ImageCard from "./ImageCard";
 function Mosaic(props) {
   const posts = props.posts;
   const cards = posts.map((post) => (
-    <div className="imageCard">
-      <ImageCard  post={post} onClick={() => props.onImageClick(post)} />
+    <div className="imageCard" key={post.id}>
+      <ImageCard post={post} onClick={() => props.onImageClick(post)} />
     </div>
   ));
 

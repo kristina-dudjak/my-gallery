@@ -65,7 +65,7 @@ function Home() {
             initialLoad={false}
             loadMore={loadMore}
             hasMore={true}
-            loader={<div>Loading ...</div>}
+            loader={<div key={0}>Loading ...</div>}
           >
             {<Mosaic posts={posts} onImageClick={showModal} />}
           </InfiniteScroll>
