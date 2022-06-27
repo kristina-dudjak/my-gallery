@@ -81,11 +81,11 @@ function Login() {
     <Container className='mt-5 d-flex justify-content-center'>
 
       <Form noValidate className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Group className="mb-3">
           <Form.Control type="email" placeholder="Email" onChange={handleEmailChange} />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formPassword">
+        <Form.Group className="mb-3">
           <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} />
         </Form.Group>
         <div className="d-grid gap-2">
