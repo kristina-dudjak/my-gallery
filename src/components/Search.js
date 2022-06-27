@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
+import { Button, Form, FormControl } from "react-bootstrap";
 
 function Search(props) {
   
@@ -13,7 +11,6 @@ function Search(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(query);
     props.onSearch(query);
   };
 

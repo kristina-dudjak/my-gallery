@@ -39,7 +39,6 @@ function Home() {
         const newQueryPosts =
           posts && pageNumber.current !== 1 ? posts.concat(e) : e;
         setPosts(newQueryPosts);
-        console.log(pageNumber.current);
         pageNumber.current++;
       });
     } else {
@@ -47,7 +46,6 @@ function Home() {
         const newPosts =
           posts && pageNumber.current !== 1 ? posts.concat(e) : e;
         setPosts(newPosts);
-        console.log(pageNumber.current);
         pageNumber.current++;
       });
     }

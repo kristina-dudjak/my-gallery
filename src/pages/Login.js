@@ -34,7 +34,7 @@ function Login() {
       event.preventDefault();
       setErrorMessage("You entered invalid email. Please enter valid email.");
     }
-  }
+  };
 
   const verifyMail = async () => {
     try {
@@ -43,7 +43,7 @@ function Login() {
     } catch (error) {
       console.log(error.code);
     }
-  }
+  };
 
   const signIn = async () => {
     setUser();
@@ -65,34 +65,35 @@ function Login() {
         setErrorMessage("Something went wrong. Please try again.");
       }
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     setLoading(true);
     event.preventDefault();
     signIn();
     setLoading(false);
-  }
+  };
+  
   return (
 
     <Container className='mt-5 d-flex justify-content-center'>
 
-      <Form id='login' noValidate className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
+      <Form noValidate className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Control type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
+          <Form.Control type="email" placeholder="Email" onChange={handleEmailChange} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+          <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} />
         </Form.Group>
         <div className="d-grid gap-2">
-          <Button variant="primary" type="submit" disabled={!email || password < 6 || loading} onClick={emailVaildation}>
+          <Button variant="primary" type="submit" disabled={!email || password.length < 6 || loading} onClick={emailVaildation}>
             Login
           </Button>
           <div className="text-danger">{errorMessage}</div>
           <div hidden={sendVerEmailHidden}>
-            You didn't get verification e-mail?
-            <Button variant='link' onClick={verifyMail}>Send verification e-mail again</Button>
+            You didn't get verification email?
+            <Button variant='link' onClick={verifyMail}>Send verification email again</Button>
           </div>
         </div>
         <Button variant="link" onClick={handleShow}>Forgot password?</Button>
