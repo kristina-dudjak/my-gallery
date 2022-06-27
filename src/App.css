@@ -9,7 +9,6 @@
 
 button:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(58, 71, 90);
 }
 
 button:active {
@@ -48,8 +47,11 @@ button:active {
 
  .imageCard {
   break-inside: avoid;
+  display: inline-grid;
+  page-break-inside: avoid;
+  overflow: hidden;
  }
-
+ 
  @media (max-width: 480px){
   
   .container__cards {
