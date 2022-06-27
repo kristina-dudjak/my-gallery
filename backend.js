@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 app.get("/images", (req, res, next) => {
   axios
     .get(BASE_URL + "photos", {
-      params: { page: req.query.page, client_id: key, per_page: 12 },
+      params: { page: req.query.page, client_id: key, per_page: 18 },
     })
     .then((response) => {
       var data = [];
@@ -46,7 +46,7 @@ app.get("/search", (req, res) => {
         page: req.query.page,
         query: req.query.q,
         client_id: key,
-        per_page: 12,
+        per_page: 18,
       },
     })
     .then((response) => {
