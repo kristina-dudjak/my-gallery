@@ -23,13 +23,6 @@ class Api {
               post.inGallery = true;
             }
           })
-          .catch((err) => {
-            let message =
-              typeof err.response !== "undefined"
-                ? err.response.data.message
-                : err.message;
-            console.warn("error", message);
-          });
       });
     return imagePosts;
   }
@@ -47,13 +40,6 @@ class Api {
       )
       .then((res) => {
         imagePosts = res.data;
-      })
-      .catch((err) => {
-        let message =
-          typeof err.response !== "undefined"
-            ? err.response.data.message
-            : err.message;
-        console.warn("error", message);
       });
     return imagePosts;
   }
@@ -84,10 +70,8 @@ class Api {
           rawData[key].id = key;
           data.push(rawData[key]);
         });
-      } else {
-        console.warn("error", "Reading gallery failed.");
-      }
-    });
+      } 
+    })
     return data;
   }
 
