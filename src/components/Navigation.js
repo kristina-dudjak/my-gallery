@@ -10,7 +10,7 @@ const Navigation = () => {
   return (
     <NavBar bg="light" expand="lg">
       <Container>
-        <NavbarBrand href="#home">React-Bootstrap</NavbarBrand>
+        <NavbarBrand>My photos</NavbarBrand>
         <NavbarToggle aria-controls="basic-navbar-nav" />
         <NavbarCollapse id="basic-navbar-nav">
           <Nav className="me-auto">
