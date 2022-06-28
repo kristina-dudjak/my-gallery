@@ -10,7 +10,7 @@ function Registration() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const { signup, logout, verifyEmail } = useAuth()
+    const { signup, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleEmailChange = (event) => {
@@ -23,52 +23,51 @@ function Registration() {
     };
 
     const register = async () => {
-        try {
-            await signup(email, password);
+        setErrorMessage("");
+        const signUpError = await signup(email, password);
+        if (signUpError === "auth/email-already-in-use") {
+            setErrorMessage("Email is already in use.");
+        } else if (signUpError != null) {
+            setErrorMessage("Something went wrong. Please try again later.");
+        } else {
             await logout();
-            await verifyEmail();
             navigate("/login");
-        } catch (error) {
-            if (error.code === "auth/email-already-in-use") {
-                setErrorMessage("Email is already in use.");
-            } else {
-                setErrorMessage("Something went wrong. Please try again.");
-            }
         }
-    }
+    };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         setLoading(true);
         event.preventDefault();
-        register();
+        await register();
         setLoading(false);
     };
 
     const emailVaildation = (event) => {
-        const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        setErrorMessage("");
+        const pattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (!pattern.test(email)) {
             event.preventDefault();
             setErrorMessage("You entered invalid email. Please enter valid email.");
         }
 
-    }
+    };
 
     return (
         <Container className='mt-5 d-flex justify-content-center'>
 
-            <Form noValidate id='registration' className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
-                <Form.Group className="mb-2">
-                    <Form.Control type="email" required placeholder="Email" onChange={handleEmailChange} />
+            <Form noValidate className='col-md-6 p-4 border border-secondary rounded' onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                    <Form.Control type="email" placeholder="Email" onChange={handleEmailChange} />
                 </Form.Group>
-                <Form.Group className="mb-2">
-                    <Form.Control type="password" required placeholder="Password (min. 6 characters)" onChange={handlePasswordChange} />
+                <Form.Group className="mb-3">
+                    <Form.Control type="password" placeholder="Password (min. 6 characters)" onChange={handlePasswordChange} />
                 </Form.Group>
                 <div className="d-grid gap-2">
                     <Button variant="primary" type="submit" disabled={!email || password.length < 6 || loading} onClick={emailVaildation}>
                         Register
                     </Button>
                 </div>
-                <div className="text-danger">{errorMessage}</div>
+                <div className="text-danger mt-2">{errorMessage}</div>
             </Form>
         </Container>
     );

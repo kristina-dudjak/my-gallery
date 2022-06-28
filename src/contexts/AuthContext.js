@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { EmailAuthProvider, createUserWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signInWithEmailAndPassword, reauthenticateWithCredential, deleteUser, updatePassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { db } from "../firebase";
+import { ref, remove } from "firebase/database";
 
 const AuthContext = React.createContext();
 
@@ -13,8 +15,13 @@ export function AuthProvider({ children }) {
   const [loggedHidden, setLoggedHidden] = useState();
   const [loading, setLoading] = useState(true);
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(email, password) {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      await verifyEmail(user.user);
+    } catch (error) {
+      return error.code;
+    }
   }
 
   function login(email, password) {
@@ -24,22 +31,43 @@ export function AuthProvider({ children }) {
   function logout() {
     return signOut(auth);
   }
-  function verifyEmail() {
-    return sendEmailVerification(currentUser);
+
+  function verifyEmail(user) {
+    return sendEmailVerification(user);
   }
+  
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }
 
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
+  async function updateUsersPassword(oldPassword, newPassword) {
+    const credential = EmailAuthProvider.credential(currentUser.email, oldPassword);
+    try {
+      await reauthenticateWithCredential(currentUser, credential);
+      await updatePassword(currentUser, newPassword);
+    } catch (error) {
+      return error.code;
+    }
+  }
+
+  async function deleteAccout(password) {
+    const credential = EmailAuthProvider.credential(currentUser.email, password);
+    try {
+      await reauthenticateWithCredential(currentUser, credential);
+      await remove(ref(db, `users/${currentUser.uid}`));
+      await deleteUser(currentUser);
+    } catch (error) {
+      return error.code;
+    }
   }
 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedHidden(false);
+        if (user.emailVerified) {
+          setLoggedHidden(false);
+        }
       } else {
         setLoggedHidden(true);
       }
@@ -47,8 +75,8 @@ export function AuthProvider({ children }) {
       setLoading(false);
     })
 
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
 
   const value = {
     currentUser,
@@ -57,13 +85,14 @@ export function AuthProvider({ children }) {
     logout,
     verifyEmail,
     resetPassword,
-    updatePassword,
+    updateUsersPassword,
+    deleteAccout,
     loggedHidden
-  }
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }

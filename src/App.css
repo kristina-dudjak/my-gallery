@@ -1,15 +1,6 @@
-.App {
-  display: flex;
-  padding-top: 50px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
 button:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(58, 71, 90);
 }
 
 button:active {
@@ -17,11 +8,11 @@ button:active {
 }
 
 .search {
-  margin: 10px 5%;
+  margin: 10px 30% 10px 0px;
 }
 
 .image-card {
-  margin: 20px 10px;
+  margin: 10px;
   cursor: pointer;
 }
 
@@ -37,3 +28,34 @@ button:active {
   max-width: 75vw;
   max-height: 65vh;
 }
+
+.description{
+  font-size: smaller;
+}
+
+.container__cards {
+  column-count: 3;
+ }
+
+ .imageCard {
+  break-inside: avoid;
+  overflow: hidden;
+ }
+
+ @media (max-width: 480px){
+  
+  .container__cards {
+    column-count: 1;
+  }
+
+}
+
+@media (min-width: 2000px){
+  
+  .container__cards {
+    column-count: 4;
+  }
+}
+ 
+ 
+

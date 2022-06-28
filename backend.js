@@ -18,9 +18,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("/images", (req, res, next) => {
+app.get("/images", (req, res) => {
   axios
-    .get(BASE_URL + "photos", { params: { page: 1, client_id: key } })
+    .get(BASE_URL + "photos", {
+      params: { page: req.query.page, client_id: key, per_page: 18 },
+    })
     .then((response) => {
       var data = [];
       response.data.forEach((e) => {
@@ -34,13 +36,25 @@ app.get("/images", (req, res, next) => {
         data.push(imagePost);
       });
       res.json(data);
+    })
+    .catch((err) => {
+      let message =
+        typeof err.response !== "undefined"
+          ? err.response.data.message
+          : err.message;
+      console.warn("error", message);
     });
 });
 
 app.get("/search", (req, res) => {
   axios
     .get(BASE_URL + "search/photos", {
-      params: { page: 1, query: req.query.q, client_id: key },
+      params: {
+        page: req.query.page,
+        query: req.query.q,
+        client_id: key,
+        per_page: 18,
+      },
     })
     .then((response) => {
       var data = [];
@@ -55,6 +69,13 @@ app.get("/search", (req, res) => {
         data.push(imagePost);
       });
       res.json(data);
+    })
+    .catch((err) => {
+      let message =
+        typeof err.response !== "undefined"
+          ? err.response.data.message
+          : err.message;
+      console.warn("error", message);
     });
 });
 

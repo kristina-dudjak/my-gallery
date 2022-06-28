@@ -1,26 +1,36 @@
 import { useState } from "react";
-import { Button, Image } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import { Button, Image, Modal } from "react-bootstrap";
 import Api from "../Api";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 function ImageModal(props) {
   const post = props.post;
-
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const [inGallery, setInGallery] = useState(post.inGallery);
 
   function addToGallery() {
-    Api.saveImagePost(currentUser.uid, post);
-    post.inGallery = true;
-    setInGallery(post.inGallery);
+   
+    if(currentUser !== null){
+      Api.saveImagePost(currentUser, post);
+      post.inGallery = true;
+      setInGallery(post.inGallery);
+    } else {
+      navigate("/login");
+    }
+    
   }
 
   function removeFromGallery() {
     post.inGallery = false;
     setInGallery(post.inGallery);
     Api.removeFromGallery(currentUser.uid, post);
+  }
+
+  function downloadImage() {
+    Api.downloadImage(post);
   }
 
   return (
@@ -46,7 +56,9 @@ function ImageModal(props) {
             Save to gallery
           </Button>
         )}
-        <Button variant="primary">Download</Button>
+        <Button variant="primary" onClick={downloadImage}>
+          Download
+        </Button>
       </Modal.Footer>
     </Modal>
   );
